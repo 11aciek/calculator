@@ -42,16 +42,15 @@ function operate(a,b,op) {
 }
 
 function  refreshDisplay(content) {
-  if (Number(content) > 999999999999) {
+  if (content == Infinity) {
+	content = "Oh NO!!";
+  } else if (Number(content) > 999999999999) {
 	content = "No memory!!";
 	clear();
   }
 
-  if (content == Infinity) {
-	content = "Oh NO!!";
-  }	
 	display.textContent = content;
-  }
+}
 
 numbers.forEach(btn => btn.addEventListener("click", function() {
   if (equalsOn || number == "0") {
