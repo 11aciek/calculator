@@ -60,8 +60,8 @@ equals.addEventListener("click", function() {
   if (memory) {
 	memory = operate(+memory, +number, operator);
 	refreshDisplay(memory);
+	number = memory;
 	memory = "";
-	number = "";
 	operator = "";
   }
 });
