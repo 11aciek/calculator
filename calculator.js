@@ -2,10 +2,18 @@ const numbers = Array.from(document.querySelectorAll(".number"));
 const display = document.querySelector(".display");
 const operators = Array.from(document.querySelectorAll(".operator"));
 const equals = document.querySelector("#equals");
-const clear = document.querySelector("#C");
-let number = "";
+const clearButton = document.querySelector("#C");
+let number = "0";
 let memory;
 let operator = "";
+let equalsOn = false;
+
+function clear() {
+  number = "";
+  memory = "";
+  operator = "";
+  equalsOn = false;
+}
 
 function add(a,b) {
   return a + b;
@@ -20,6 +28,7 @@ function mult(a,b) {
 }
 
 function divide(a,b) {
+  if (b == 0) return Infinity;
   return a / b;
 }
 
@@ -33,11 +42,22 @@ function operate(a,b,op) {
 }
 
 function  refreshDisplay(content) {
+  if (Number(content) > 999999999999) {
+	content = "No memory!!";
+	clear();
+  }
+
+  if (content == Infinity) {
+	content = "Oh NO!!";
+  }	
 	display.textContent = content;
   }
 
 numbers.forEach(btn => btn.addEventListener("click", function() {
-  if (number.length < 12) {
+  if (equalsOn || number == "0") {
+	number = btn.id;
+	equalsOn = false;
+  } else if (number.length < 12) {
 	number += btn.id;
   }
   refreshDisplay(number);
@@ -60,15 +80,14 @@ equals.addEventListener("click", function() {
   if (memory) {
 	memory = operate(+memory, +number, operator);
 	refreshDisplay(memory);
-	number = memory;
+	number = String(memory);
 	memory = "";
 	operator = "";
+	equalsOn = true;
   }
 });
 
-clear.addEventListener("click", function() {
-  memory = "";
-  number = "";
-  operator = "";
+clearButton.addEventListener("click", function() {
+  clear();
   refreshDisplay(0);
 });
