@@ -20,22 +20,26 @@ function clear() {
   equalsOn = false;
 }
 
+function round(num) {
+  return Math.round(num * 100000)/100000;
+}
+
 function add(a,b) {
-  return a + b;
+  return round(a + b);
 }
 
 function sub(a,b) {
-  return a - b;
+  return round(a - b);
 }
 
 function mult(a,b) {
-  return a * b;
+  return round(a * b);
 }
 
 function divide(a,b) {
   // It could be the first calculator in the world, which divide by 0 :)
   if (b == 0) return Math.floor(Math.random() * 2);
-  return a / b;
+  return round(a / b);
 }
 
 function operate(a,b,op) {
