@@ -33,6 +33,7 @@ function mult(a,b) {
 }
 
 function divide(a,b) {
+  // It could be the first calculator in the world, which divide by 0 :)
   if (b == 0) return Math.floor(Math.random() * 2);
   return a / b;
 }
@@ -48,21 +49,21 @@ function operate(a,b,op) {
 
 function  refreshDisplay(content) {
   content = content.toString();
-  if (content == Infinity) {
-	content = "Oh NO!!";
-  } else if (Number(content) > 999999999999 || Number(content) < -99999999999) {
+  // There could be better way for this. The display has only 12 places.
+  if (Number(content) > 999999999999 || Number(content) < -99999999999) {
 	content = "No memory!!";
 	clear();
   } else if (content.length > 12) {
-	content = content.split("").splice(0,12).join("");
+	// If number is between 9*10^12 and -9*10^11 and still has 12 places it has to be decimal
+	content = content.slice(0,11);
   }
-
+	number = content;
 	display.textContent = content;
 }
 
 numbers.forEach(btn => btn.addEventListener("click", function() {
   number = number.toString();
-  if (equalsOn || number == "0") {
+  if (equalsOn || number == "0") { // = reset number but no memory, on display is memory
 	number = btn.id;
 	equalsOn = false;
   } else if (number.length < 12) {
@@ -83,12 +84,12 @@ dotButton.addEventListener("click", function() {
 
 operators.forEach(btn => btn.addEventListener("click", function() {
   if (memory) {
-	memory = operate(+memory, +number, operator);
+	memory = operate(+memory, +number, operator); // use previous operator
 	refreshDisplay(memory);
-	operator = btn.id;
+	operator = btn.id; // now assign new operator
 	number = "";
   } else {
-	memory = number;
+	memory = number; // first operation
 	operator = btn.id;
 	number = "";
   }
@@ -101,7 +102,7 @@ equals.addEventListener("click", function() {
 	number = String(memory);
 	memory = "";
 	operator = "";
-	equalsOn = true;
+	equalsOn = true; // this flag is important - = reset memory and operator, but last result is ready for next operation
   }
 });
 
@@ -112,7 +113,7 @@ clearButton.addEventListener("click", function() {
 
 bckButton.addEventListener("click", function() {
   number = number.toString();
-  if (number.length == 1) {
+  if (number.length == 1) { // 0 and not an empty display
 	number = 0;
   } else {
 	number = number.toString().slice(0,-1);
@@ -126,6 +127,6 @@ signButton.addEventListener("click", function() {
 });
 
 rndButton.addEventListener("click", function() {
-  number = Math.ceil(Math.random() * Number(number));
+  number = Math.ceil(Math.random() * Number(number)); // RND in DnD style, if you need 0 use -sign
   refreshDisplay(number);
 });
