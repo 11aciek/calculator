@@ -118,7 +118,7 @@ clearButton.addEventListener("click", function() {
 
 bckButton.addEventListener("click", function() {
   number = number.toString();
-  if (number.length == 1) { // 0 and not an empty display
+  if (number.length <= 1) { // 0 and not an empty display
 	number = 0;
   } else {
 	number = number.toString().slice(0,-1);
