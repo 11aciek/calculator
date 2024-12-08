@@ -44,10 +44,10 @@ function divide(a,b) {
 
 function operate(a,b,op) {
   switch(op) {
-	case 'plus': return add(a,b);
-	case 'minus': return sub(a,b);
-	case 'multiply': return mult(a,b);
-	case "divide": return divide(a,b);
+	case '+': return add(a,b);
+	case '-': return sub(a,b);
+	case '*': return mult(a,b);
+	case "/": return divide(a,b);
   }
 }
 
@@ -102,6 +102,7 @@ function doOperation(operatorSymbol) {
 function makeResult() {
   if (memory) {
 	memory = operate(+memory, +number, operator);
+	console.log(memory);
 	refreshDisplay(memory);
 	number = String(memory);
 	memory = "";
@@ -144,3 +145,38 @@ rndButton.addEventListener("click", function() {
   number = Math.ceil(Math.random() * Number(number)); // RND in DnD style, if you need 0 use -sign
   refreshDisplay(number);
 });
+
+// The keyboards events
+
+document.addEventListener("keydown", function(event) {
+  const keyName = event.key.toLowerCase();
+
+  if (Number(keyName) >= 0 && Number(keyName) < 10 ) {
+	addDigit(keyName);
+  } else if (keyName == ".") {
+	addDot();
+  } else if (keyName == "_") {
+	number = -Number(number);
+	refreshDisplay(number);
+  } else if (keyName == "c") {
+	clear();
+	refreshDisplay(0);
+  } else if (keyName == "r") {
+	number = Math.ceil(Math.random() * Number(number));
+	refreshDisplay(number);
+  } else if (keyName == "backspace") {
+	doBackspace();
+  } else if (keyName == "=" || keyName == "enter") {
+	makeResult();
+  } else if (keyName == "+" || keyName == "-" || keyName == "*" || keyName == "/") {
+	doOperation(keyName);
+  } else if (keyName =="?") {
+	alert("Kazio XP \nAdvanced Calculator with eXtreme Power\n" +
+	  "RND(r key): random number generator in DnD style\n" +
+	  "+/-(_): + or - sign\n (\/) - division\n(*) - multiplication\n\n" +
+	  "Warning: this calculator can make quantum calculations.\n" +
+	  "Division by zero is possible. Results may be unpredictable.");
+  }
+});
+
+console.log("press ? for help");
