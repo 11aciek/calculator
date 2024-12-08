@@ -6,6 +6,7 @@ const clearButton = document.querySelector("#C");
 const dotButton = document.querySelector("#dot");
 const bckButton = document.querySelector("#BCK");
 const signButton = document.querySelector("#sign");
+const rndButton = document.querySelector("#RND");
 
 let number = "0";
 let memory;
@@ -121,5 +122,10 @@ bckButton.addEventListener("click", function() {
 
 signButton.addEventListener("click", function() {
   number = -Number(number);
+  refreshDisplay(number);
+});
+
+rndButton.addEventListener("click", function() {
+  number = Math.ceil(Math.random() * Number(number));
   refreshDisplay(number);
 });
