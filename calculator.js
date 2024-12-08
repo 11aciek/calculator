@@ -65,19 +65,18 @@ function  refreshDisplay(content) {
 	display.textContent = content;
 }
 
-numbers.forEach(btn => btn.addEventListener("click", function() {
+function addDigit(digit) {
   number = number.toString();
   if (equalsOn || number == "0") { // = reset number but no memory, on display is memory
-	number = btn.id;
+	number = digit;
 	equalsOn = false;
   } else if (number.length < 12) {
-	number += btn.id;
+	number += digit;
   }
   refreshDisplay(number);
-}));
+}
 
-
-dotButton.addEventListener("click", function() {
+function addDot() {
   if (equalsOn || number == "0" || !number) {
 	number = "0.";
 	equalsOn = false;
@@ -85,22 +84,22 @@ dotButton.addEventListener("click", function() {
 	number += ".";
   }
   refreshDisplay(number);
-});
+}
 
-operators.forEach(btn => btn.addEventListener("click", function() {
+function doOperation(operatorSymbol) {
   if (memory) {
 	memory = operate(+memory, +number, operator); // use previous operator
 	refreshDisplay(memory);
-	operator = btn.id; // now assign new operator
+	operator = operatorSymbol; // now assign new operator
 	number = "";
   } else {
 	memory = number; // first operation
-	operator = btn.id;
+	operator = operatorSymbol;
 	number = "";
   }
-}));
+}
 
-equals.addEventListener("click", function() {
+function makeResult() {
   if (memory) {
 	memory = operate(+memory, +number, operator);
 	refreshDisplay(memory);
@@ -109,14 +108,9 @@ equals.addEventListener("click", function() {
 	operator = "";
 	equalsOn = true; // this flag is important - = reset memory and operator, but last result is ready for next operation
   }
-});
+}
 
-clearButton.addEventListener("click", function() {
-  clear();
-  refreshDisplay(0);
-});
-
-bckButton.addEventListener("click", function() {
+function doBackspace() {
   number = number.toString();
   if (number.length <= 1) { // 0 and not an empty display
 	number = 0;
@@ -124,7 +118,22 @@ bckButton.addEventListener("click", function() {
 	number = number.toString().slice(0,-1);
   }
   refreshDisplay(number);
+}
+
+numbers.forEach(btn => btn.addEventListener("click", () => addDigit(btn.id))); 
+
+dotButton.addEventListener("click", addDot);
+
+operators.forEach(btn => btn.addEventListener("click", () => doOperation(btn.id)));
+
+equals.addEventListener("click", makeResult);
+
+clearButton.addEventListener("click", function() {
+  clear();
+  refreshDisplay(0);
 });
+
+bckButton.addEventListener("click", doBackspace);
 
 signButton.addEventListener("click", function() {
   number = -Number(number);
