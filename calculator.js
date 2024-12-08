@@ -74,10 +74,11 @@ numbers.forEach(btn => btn.addEventListener("click", function() {
 
 
 dotButton.addEventListener("click", function() {
-  if (number && !number.includes(".")) {
-	number += ".";
-  } else if (!number) {
+  if (equalsOn || number == "0") {
 	number = "0.";
+	equalsOn = false;
+  } else if (number && !number.includes(".")) {
+	number += ".";
   }
   refreshDisplay(number);
 });
