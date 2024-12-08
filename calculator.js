@@ -74,7 +74,7 @@ numbers.forEach(btn => btn.addEventListener("click", function() {
 
 
 dotButton.addEventListener("click", function() {
-  if (equalsOn || number == "0") {
+  if (equalsOn || number == "0" || !number) {
 	number = "0.";
 	equalsOn = false;
   } else if (number && !number.includes(".")) {
