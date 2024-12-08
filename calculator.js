@@ -33,7 +33,7 @@ function mult(a,b) {
 }
 
 function divide(a,b) {
-  if (b == 0) return Infinity;
+  if (b == 0) return Math.floor(Math.random() * 2);
   return a / b;
 }
 
